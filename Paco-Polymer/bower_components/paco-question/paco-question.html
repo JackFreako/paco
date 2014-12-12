@@ -13,24 +13,24 @@ A container to hold a gplus post.
 @url github.io
 -->
 
-<polymer-element name="paco-question" attributes="choices questionId value">
+<polymer-element name="paco-question" attributes="choices questionId value condition">
   <template>
     <link href="paco-question.css" rel="stylesheet" />
-
-    <div id="content">
-      Please select one:
+    <!--  Condition: {{condition}} -->
     
-      <template repeat="{{ choice in choiceArray }}">
+    <div id="content" visible="{{condition}}">
+      [{{condition}}] Question {{questionId}}:
+      <template repeat="{{ choice in choiceArray }}" >
         <label>
           <input type="radio" name="likert_{{questionId}}" value="{{choice}}" on-click="{{radioChanged}}">
           {{choice}}
         </label>
       </template>
     </div>
-
   </template>
   <script>
     Polymer('paco-question', {
+      condition: true,
       choiceArray: [1,2,3,4,5],
       ready: function() {
         
@@ -39,7 +39,9 @@ A container to hold a gplus post.
         this.choiceArray = JSON.parse(newVal);
       },
       radioChanged: function() {
-        this.value = this.$.content.querySelector('input[type=radio]:checked').value;;
+        var radio = this.$.content.querySelector('input[type=radio]:checked');
+        console.log(radio);
+        this.value = radio.value;
       }
     });
   </script>
