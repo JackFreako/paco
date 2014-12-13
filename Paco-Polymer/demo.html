@@ -5,22 +5,16 @@
   <title>paco-question demo</title>
 
   <link rel="import" href="bower_components/paco-question/paco-question.html">
+  <link rel="import" href="bower_components/paco-experiment/paco-experiment.html">
 
 </head>
 <body unresolved>
 
-  <polymer-element name="paco-experiment">
-    <template>
-      <paco-question questionId=1 value="{{q1}}"></paco-question>
-      <paco-question questionId=2 value="{{q2}}" condition="{{q1==2||q1==1}}" choices='["A","B","C"]'></paco-question>  
-      <paco-question questionId=3 value="{{q3}}" condition="{{q2==='A'}}" choices='["D","E","F"]'></paco-question>  
-    </template>
-    <script>
-      Polymer('paco-experiment');
-    </script>
-  </polymer-element>
-
-  <paco-experiment></paco-experiment>
+  <paco-experiment>
+    <paco-question questionId=1></paco-question>
+    <paco-question questionId=2 condition="q1>2" choices='["A","B","C"]'></paco-question>  
+    <paco-question questionId=3 condition="q2==='A'" choices='["D","E","F"]'></paco-question>  
+  </paco-experiment>
 
 </body>
 </html>

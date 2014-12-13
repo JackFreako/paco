@@ -13,13 +13,13 @@ A container to hold a gplus post.
 @url github.io
 -->
 
-<polymer-element name="paco-question" attributes="choices questionId value condition">
+<polymer-element name="paco-question" attributes="choices questionId value condition answers">
   <template>
     <link href="paco-question.css" rel="stylesheet" />
-    <!--  Condition: {{condition}} -->
+     Condition: {{condition}}
     
-    <div id="content" visible="{{condition}}">
-      [{{condition}}] Question {{questionId}}:
+    <div id="content" visible="{{viz}}">
+      Question {{questionId}}:
       <template repeat="{{ choice in choiceArray }}" >
         <label>
           <input type="radio" name="likert_{{questionId}}" value="{{choice}}" on-click="{{radioChanged}}">
@@ -30,18 +30,38 @@ A container to hold a gplus post.
   </template>
   <script>
     Polymer('paco-question', {
-      condition: true,
+      answers: {},
       choiceArray: [1,2,3,4,5],
+      viz: true,
       ready: function() {
-        
+        window['q' + this.questionId] = null;
+        var _this = this;
+        document.addEventListener('answersChanged', 
+          function(e) {
+            _this.checkConditions();
+          }
+        );
       },
       choicesChanged: function(oldVal, newVal) {
         this.choiceArray = JSON.parse(newVal);
       },
+      checkConditions: function() {
+        if (this.condition) {
+
+        var swapped = this.condition;
+
+        for(sub in this.answers) {          
+          window[sub] = this.answers[sub];
+        }
+        this.viz = eval(swapped);
+    }
+
+      },
       radioChanged: function() {
         var radio = this.$.content.querySelector('input[type=radio]:checked');
-        console.log(radio);
         this.value = radio.value;
+        this.answers['q' + this.questionId] = this.value;
+        this.fire('answersChanged', this.answers);
       }
     });
   </script>
