@@ -11,8 +11,8 @@ libraries:
 
 handlers:
 - url: /
-  static_files: index.html
-  upload: index.html
+  static_files: demo.html
+  upload: demo.html
   expiration: "15m"
 
 - url: /

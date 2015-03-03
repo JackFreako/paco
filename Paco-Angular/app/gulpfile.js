@@ -15,7 +15,7 @@ var gulp = require('gulp'),
 
 // Styles
 gulp.task('styles', function() {
-  return gulp.src(['bower_components/angular/angular-csp.css', 'bower_components/angular-material/angular-material.css', 'bower_components/angular-material/default-theme.css', 'css/*.css'])
+  return gulp.src(['bower_components/angular/angular-csp.css', 'bower_components/angular-material/angular-material.css', 'bower_components/angular-material/default-theme.css', 'css/demo.css'])
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
     .pipe(concat('styles.css'))
     .pipe(gulp.dest('dist'))
@@ -31,7 +31,7 @@ gulp.task('styles', function() {
 
 // Scripts
 gulp.task('scripts', function() {
-  return gulp.src(['js/*.js'])
+  return gulp.src(['js/demo.js'])
     .pipe(concat('main.js'))
     .pipe(gulp.dest('dist'))
     .pipe(rename({
@@ -60,33 +60,15 @@ gulp.task('ng-scripts', function() {
 });
 
 
-// Images
-gulp.task('images', function() {
-  return gulp.src('img/*')
-    .pipe(cache(imagemin({
-      optimizationLevel: 3,
-      progressive: true,
-      interlaced: true
-    })))
-    .pipe(gulp.dest('dist/img'))
-    .pipe(notify({
-      message: 'Images task complete'
-    }));
-});
-
 // Copy fonts from a module outside of our project (like Bower)
 gulp.task('copyfiles', function() {
-  gulp.src('partials/*')
+  gulp.src('partials/demo.html')
     .pipe(gulp.dest('dist/partials'));
-
-  gulp.src('js/*json')
-    .pipe(gulp.dest('dist/js'));
-
 
 });
 
 gulp.task('indexhtml', function() {
-  gulp.src('gulp.html')
+  gulp.src('gulp-demo.html')
     .pipe(rename('index.html'))
     .pipe(gulp.dest('dist/'));
 });
@@ -99,5 +81,5 @@ gulp.task('clean', function(cb) {
 
 // Default task
 gulp.task('default', ['clean'], function() {
-  gulp.start('styles', 'scripts', 'ng-scripts', 'images', 'copyfiles', 'indexhtml');
+  gulp.start('styles', 'scripts', 'ng-scripts', 'copyfiles', 'indexhtml');
 });
